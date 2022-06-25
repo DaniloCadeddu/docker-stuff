@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mydb
+    ports:
+      - "3306:3306"
+
+  springboot:
+    build: .
+    restart: on-failure
+    ports:
+      - "8080:8080"
