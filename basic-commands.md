@@ -371,6 +371,7 @@ Options:
 ```
 
 Lista comandi e comandi di managment compatta (`docker <COMMAND> —help` per documentazione sui singoli comandi):
+```bash
 Management Commands:
   builder     Manage builds
   buildx*     Docker Buildx (Docker Inc., v0.8.2)
@@ -432,4 +433,5 @@ Commands:
   unpause     Unpause all processes within one or more containers
   update      Update configuration of one or more containers
   version     Show the Docker version information
-  wait        Block until one or more containe
+  wait        Block until one or more containers stop, then print their exit codes
+```
