@@ -90,21 +90,26 @@ Per creare inzialmente un’immagine per l’applicazione SpringBoot usiamo un s
 
 ```docker
 FROM maven:3.8.6-jdk-1
-COPY . .
-RUN mvn clean install
-COPY ./target/*.jar springbootapp.jar
-ENTRYPOINT ["java", "-jar", "springbootapp.jar"]
+
+COPY . /myapp
+WORKDIR /myapp
+
+RUN mvn clean install -DskipTests
+
+ENTRYPOINT ["java", "-jar", "/myapp/target/springbootapp.jar"]
 ```
 
 `FROM maven:3.8.6-jdk-11` con questa istruzione specifichiamo l’immagine docker di base su cui baseremo la nostra immagine.
 
-`RUN mvn clean install` con questo comando lanciamo la build maven che creerà la cartella target nella root directory con all’interno il jar dell’applicazione java.
+`COPY . /myapp` copiamo il contenuto della cartella della macchina host in una cartella /myapp nel container.
 
-`COPY ./target/*.jar springbootapp.jar` con questa istruzione copiamo il jar da eseguire dalla macchina host e lo mettiamo dentro il docker rinominandolo e mettendolo in un path a piacere.
+`WORKDIR /myapp` mettiamo come folder di lavoro la cartella appena creata
 
-`ENTRYPOINT ["java", "-jar", "springbootapp.jar"]` con questo istruzione andiamo a eseguire il comando `java -jar` 
+`RUN mvn clean install -DskipTests` con questo comando lanciamo la build maven che creerà la cartella target nella root directory con all’interno il jar dell’applicazione java.
 
-`springbootapp.jar` in modo tale da far partire automaticamente l’applicazione quando andremo poi a costruire il container con questa immagine.
+`ENTRYPOINT ["java", "-jar", "/myapp/target/springbootapp.jar"]` con questo istruzione andiamo a eseguire il comando `java -jar` 
+
+`/myapp/target/springbootapp.jar` in modo tale da far partire automaticamente l’applicazione quando andremo poi a costruire il container con questa immagine.
 
 Scritto il Dockerfile non dobbiamo fare altro che buildare l’immagine con il comando
 
